@@ -1,2 +1,2 @@
 # dir-builder
-Building directory from a model
+A package that helps to build a full directory structure based on a model
