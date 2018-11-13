@@ -24,35 +24,42 @@ namespace DirBuilder
             _currentDirectory = _rootDirectory;
         }
 
-        private void ValidateDirectoryName(string name)
+        private void ValidateDirectoryName(string directoryName)
         {
+            if (string.IsNullOrWhiteSpace(directoryName))
+            {
+                throw new ArgumentException(
+                    "Directory name can't be null or empty", 
+                    nameof(directoryName)
+                );
+            }
 
+            if (directoryName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+            {
+                throw new ArgumentException(
+                    "Directory name can't contains invalid chars", 
+                    nameof(directoryName)
+                );
+            }
         }
 
-        private void ValidateFileName(string name)
+        private void ValidateFileName(string fileName)
         {
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                throw new ArgumentException(
+                    "File name can't be null or empty", 
+                    nameof(fileName)
+                );
+            }
 
-        }
-
-        public DirectoryDTO AddSubdirectoryAndStay(string name)
-        {
-            ValidateDirectoryName(name);
-            _currentDirectory.AddSubdirectory(name);
-            return _currentDirectory;
-        }
-
-        public DirectoryDTO AddSubdirectoryAndEnter(string name)
-        {
-            ValidateDirectoryName(name);
-            _currentDirectory = _currentDirectory.AddSubdirectory(name);
-            return _currentDirectory;
-        }
-
-        public DirectoryDTO AddFile(string name) 
-        {
-            ValidateFileName(name);
-            _currentDirectory.AddFile(name);
-            return _currentDirectory;
+            if (fileName.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
+            {
+                throw new ArgumentException(
+                    "File name can't contains invalid chars", 
+                    nameof(fileName)
+                );
+            }
         }
 
         private void CreateRecursive(DirectoryDTO dto)
@@ -78,6 +85,33 @@ namespace DirBuilder
             {
                 CreateRecursive(subDirectory);
             }
+        }
+
+        public DirectoryDTO AddSubdirectoryAndStay(string name)
+        {
+            ValidateDirectoryName(name);
+
+            _currentDirectory.AddSubdirectory(name);
+            
+            return _currentDirectory;
+        }
+
+        public DirectoryDTO AddSubdirectoryAndEnter(string name)
+        {
+            ValidateDirectoryName(name);
+            
+            _currentDirectory = _currentDirectory.AddSubdirectory(name);
+            
+            return _currentDirectory;
+        }
+
+        public DirectoryDTO AddFile(string name) 
+        {
+            ValidateFileName(name);
+            
+            _currentDirectory.AddFile(name);
+            
+            return _currentDirectory;
         }
 
         public void Create()
