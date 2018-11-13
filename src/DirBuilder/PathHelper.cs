@@ -8,12 +8,17 @@ namespace DirBuilder
     {
         private static string GetFullPathRecursive(DirectoryDTO dto)
         {
-            if (dto.Parent != null)
+            if (dto == null)
             {
-                return Path.Combine(GetFullPathRecursive(dto.Parent), dto.Name);
+                return string.Empty;
             }
 
-            return dto.Name;
+            if (dto.Parent == null)
+            {
+                return dto.Name;
+            }
+
+            return Path.Combine(GetFullPathRecursive(dto.Parent), dto.Name);
         }
 
         public static string GetFullPath(DirectoryDTO dto)

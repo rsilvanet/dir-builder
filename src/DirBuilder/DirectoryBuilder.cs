@@ -92,48 +92,55 @@ namespace DirBuilder
         {
             var fullPath = Path.Combine(_basePath, dto.GetFullPath());
 
-            content += fullPath.PadLeft(fullPath.Length + level, '-') + "\r\n";
+            content += fullPath + "\r\n";
 
             foreach (var file in dto.Files.OrderBy(x => x.Name))
             {
                 var fullFilePath = Path.Combine(_basePath, file.GetFullPath());
                 
-                content += fullPath.PadLeft(fullFilePath.Length + level + 1, '-') + "\r\n";
+                content += fullFilePath + "\r\n";
             }
 
             foreach (var subDirectory in dto.Subdirectories.OrderBy(x => x.Name))
             {
-                content += DescribeRecursive(subDirectory, level + 1, content);
+                content = DescribeRecursive(subDirectory, level + 1, content);
             }
 
             return content;
         }
 
-        public DirectoryDTO AddSubdirectoryAndStay(string name)
+        public DirectoryBuilder AddSubdirectoryAndStay(string name)
         {
             ValidateDirectoryName(name);
 
             _currentDirectory.AddSubdirectory(name);
             
-            return _currentDirectory;
+            return this;
         }
 
-        public DirectoryDTO AddSubdirectoryAndEnter(string name)
+        public DirectoryBuilder AddSubdirectoryAndEnter(string name)
         {
             ValidateDirectoryName(name);
             
             _currentDirectory = _currentDirectory.AddSubdirectory(name);
             
-            return _currentDirectory;
+            return this;
         }
 
-        public DirectoryDTO AddFile(string name) 
+        public DirectoryBuilder AddFile(string name) 
         {
             ValidateFileName(name);
             
             _currentDirectory.AddFile(name);
             
-            return _currentDirectory;
+            return this;
+        }
+
+        public DirectoryBuilder GoBack() 
+        {
+            _currentDirectory = _currentDirectory.Parent;
+
+            return this;
         }
 
         public void Create()

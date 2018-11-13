@@ -28,14 +28,14 @@ namespace DirBuilder.DTO
         {
             var dto = new DirectoryDTO(name, this);
             Subdirectories.Add(dto);
-            return this;
+            return dto;
         }
 
-        public DirectoryDTO AddFile(string name)
+        public FileDTO AddFile(string name)
         {
             var dto = new FileDTO(name, this);
             Files.Add(dto);
-            return this; 
+            return dto; 
         }
     }
 }
