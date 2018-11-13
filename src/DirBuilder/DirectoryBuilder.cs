@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using DirBuilder.DTO;
 
 namespace DirBuilder
@@ -87,6 +88,27 @@ namespace DirBuilder
             }
         }
 
+        public string DescribeRecursive(DirectoryDTO dto, int level, string content)
+        {
+            var fullPath = Path.Combine(_basePath, dto.GetFullPath());
+
+            content += fullPath.PadLeft(fullPath.Length + level, '-') + "\r\n";
+
+            foreach (var file in dto.Files.OrderBy(x => x.Name))
+            {
+                var fullFilePath = Path.Combine(_basePath, file.GetFullPath());
+                
+                content += fullPath.PadLeft(fullFilePath.Length + level + 1, '-') + "\r\n";
+            }
+
+            foreach (var subDirectory in dto.Subdirectories.OrderBy(x => x.Name))
+            {
+                content += DescribeRecursive(subDirectory, level + 1, content);
+            }
+
+            return content;
+        }
+
         public DirectoryDTO AddSubdirectoryAndStay(string name)
         {
             ValidateDirectoryName(name);
@@ -117,6 +139,11 @@ namespace DirBuilder
         public void Create()
         {
             CreateRecursive(_rootDirectory);
+        }
+
+        public override string ToString() 
+        {
+            return DescribeRecursive(_rootDirectory, 1, string.Empty);
         }
     }
 }
