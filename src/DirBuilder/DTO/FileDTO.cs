@@ -5,8 +5,14 @@ namespace DirBuilder.DTO
 {
     public class FileDTO
     {
-        public string Name { get; set; }
-        public DirectoryDTO Directory { get; set; }
+        public FileDTO(string name, DirectoryDTO directory)
+        {
+            Name = name;
+            Directory = directory;
+        }
+
+        public string Name { get; private set; }
+        public DirectoryDTO Directory { get; private set; }
 
         public string GetFullPath()
         {
