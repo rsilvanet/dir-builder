@@ -20,7 +20,7 @@ namespace DirBuilder
 
             var info = new DirectoryInfo(basePath);
 
-            _basePath = basePath;
+            _basePath = info.Parent.FullName;
             _rootDirectory = new DirectoryDTO(info.Name, null);
             _currentDirectory = _rootDirectory;
         }
