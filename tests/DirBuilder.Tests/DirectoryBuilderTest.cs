@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using DirBuilder.DTO;
 using Xunit;
 
@@ -13,10 +14,10 @@ namespace DirBuilder.Tests
             var temp = Path.GetTempPath();
             var guid = Guid.NewGuid().ToString();
             var tempPath = Path.Combine(temp, guid).TrimEnd('/');
-            
+
             try
             {
-                var builder = new DirectoryBuilder(tempPath, true)
+                var dirBuilder = new DirectoryBuilder(tempPath, true)
                     .AddFile("file1.txt")
                     .AddFile("file2.txt")
                     .AddSubdirectoryAndEnter("dir1")
@@ -29,31 +30,31 @@ namespace DirBuilder.Tests
                             .AddFile("file311.txt")
                             .AddFile("file312.txt")
                         .GoBack()
-                        .AddFile("file31.txt")
+                    .   AddFile("file31.txt")
                     .GoBack();
 
-                var expected = 
-                    tempPath + "\n" + 
-                    tempPath + @"/file1.txt" + "\n" + 
-                    tempPath + @"/file2.txt" + "\n" + 
-                    tempPath + @"/dir1" + "\n" + 
-                    tempPath + @"/dir1/file11.txt" + "\n" + 
-                    tempPath + @"/dir1/file12.txt" + "\n" + 
-                    tempPath + @"/dir2" + "\n" + 
-                    tempPath + @"/dir3" + "\n" + 
-                    tempPath + @"/dir3/file31.txt" + "\n" + 
-                    tempPath + @"/dir3/dir31" + "\n" + 
-                    tempPath + @"/dir3/dir31/file311.txt" + "\n" + 
-                    tempPath + @"/dir3/dir31/file312.txt" + "\n"; 
+                var strBuilder = new StringBuilder();
+                strBuilder.AppendLine(tempPath);
+                strBuilder.AppendLine(Path.Combine(tempPath, @"file1.txt"));
+                strBuilder.AppendLine(Path.Combine(tempPath, @"file2.txt"));
+                strBuilder.AppendLine(Path.Combine(tempPath, @"dir1"));
+                strBuilder.AppendLine(Path.Combine(tempPath, @"dir1/file11.txt"));
+                strBuilder.AppendLine(Path.Combine(tempPath, @"dir1/file12.txt"));
+                strBuilder.AppendLine(Path.Combine(tempPath, @"dir2"));
+                strBuilder.AppendLine(Path.Combine(tempPath, @"dir3"));
+                strBuilder.AppendLine(Path.Combine(tempPath, @"dir3/file31.txt"));
+                strBuilder.AppendLine(Path.Combine(tempPath, @"dir3/dir31"));
+                strBuilder.AppendLine(Path.Combine(tempPath, @"dir3/dir31/file311.txt"));
+                strBuilder.AppendLine(Path.Combine(tempPath, @"dir3/dir31/file312.txt"));
 
-                Assert.Equal(expected, builder.ToString());
+                Assert.Equal(strBuilder.ToString(), dirBuilder.ToString());
             }
             finally
             {
                 Directory.Delete(tempPath, true);
             }
         }
-    
+
         [Fact]
         public void Can_Create()
         {
@@ -66,7 +67,8 @@ namespace DirBuilder.Tests
                 var builder = new DirectoryBuilder(tempPath, true)
                     .AddFile("file1.txt")
                     .AddSubdirectoryAndEnter("dir1")
-                        .AddFile("file11.txt");
+                        .AddFile("file11.txt")
+                    .GoBack();
 
                 builder.Create();
 
