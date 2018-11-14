@@ -12,11 +12,18 @@ namespace DirBuilder
         private readonly DirectoryDTO _rootDirectory;
         private DirectoryDTO _currentDirectory;
 
-        public DirectoryBuilder(string basePath)
+        public DirectoryBuilder(string basePath, bool createBasePath = false)
         {
             if (!Directory.Exists(basePath))
             {
-                throw new DirectoryNotFoundException(basePath);
+                if (createBasePath)
+                {
+                    Directory.CreateDirectory(basePath);
+                }
+                else
+                {
+                    throw new DirectoryNotFoundException(basePath);
+                }
             }
 
             var info = new DirectoryInfo(basePath);

@@ -14,11 +14,9 @@ namespace DirBuilder.Tests
             var guid = Guid.NewGuid().ToString();
             var tempPath = Path.Combine(temp, guid).TrimEnd('/');
             
-            Directory.CreateDirectory(tempPath);
-
             try
             {
-                var builder = new DirectoryBuilder(tempPath)
+                var builder = new DirectoryBuilder(tempPath, true)
                     .AddFile("file1.txt")
                     .AddFile("file2.txt")
                     .AddSubdirectoryAndEnter("dir1")
@@ -62,12 +60,10 @@ namespace DirBuilder.Tests
             var temp = Path.GetTempPath();
             var guid = Guid.NewGuid().ToString();
             var tempPath = Path.Combine(temp, guid).TrimEnd('/');
-            
-            Directory.CreateDirectory(tempPath);
 
             try
             {
-                var builder = new DirectoryBuilder(tempPath)
+                var builder = new DirectoryBuilder(tempPath, true)
                     .AddFile("file1.txt")
                     .AddSubdirectoryAndEnter("dir1")
                         .AddFile("file11.txt");
