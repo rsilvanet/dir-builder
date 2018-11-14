@@ -16,11 +16,7 @@ namespace DirBuilder
         {
             if (!Directory.Exists(basePath))
             {
-                if (createBasePath)
-                {
-                    Directory.CreateDirectory(basePath);
-                }
-                else
+                if (!createBasePath)
                 {
                     throw new DirectoryNotFoundException(basePath);
                 }
@@ -43,7 +39,7 @@ namespace DirBuilder
                 );
             }
 
-            if (directoryName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+            if (directoryName.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
             {
                 throw new ArgumentException(
                     "Directory name can't contains invalid chars", 
@@ -62,7 +58,7 @@ namespace DirBuilder
                 );
             }
 
-            if (fileName.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
+            if (fileName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
             {
                 throw new ArgumentException(
                     "File name can't contains invalid chars", 
