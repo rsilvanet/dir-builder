@@ -35,18 +35,18 @@ namespace DirBuilder.Tests
                     .GoBack();
 
                 var expected = 
-                    tempPath + "\r\n" + 
-                    tempPath + @"/file1.txt" + "\r\n" + 
-                    tempPath + @"/file2.txt" + "\r\n" + 
-                    tempPath + @"/dir1" + "\r\n" + 
-                    tempPath + @"/dir1/file11.txt" + "\r\n" + 
-                    tempPath + @"/dir1/file12.txt" + "\r\n" + 
-                    tempPath + @"/dir2" + "\r\n" + 
-                    tempPath + @"/dir3" + "\r\n" + 
-                    tempPath + @"/dir3/file31.txt" + "\r\n" + 
-                    tempPath + @"/dir3/dir31" + "\r\n" + 
-                    tempPath + @"/dir3/dir31/file311.txt" + "\r\n" + 
-                    tempPath + @"/dir3/dir31/file312.txt" + "\r\n"; 
+                    tempPath + "\n" + 
+                    tempPath + @"/file1.txt" + "\n" + 
+                    tempPath + @"/file2.txt" + "\n" + 
+                    tempPath + @"/dir1" + "\n" + 
+                    tempPath + @"/dir1/file11.txt" + "\n" + 
+                    tempPath + @"/dir1/file12.txt" + "\n" + 
+                    tempPath + @"/dir2" + "\n" + 
+                    tempPath + @"/dir3" + "\n" + 
+                    tempPath + @"/dir3/file31.txt" + "\n" + 
+                    tempPath + @"/dir3/dir31" + "\n" + 
+                    tempPath + @"/dir3/dir31/file311.txt" + "\n" + 
+                    tempPath + @"/dir3/dir31/file312.txt" + "\n"; 
 
                 Assert.Equal(expected, builder.ToString());
             }
