@@ -88,7 +88,7 @@ namespace DirBuilder
             }
         }
 
-        public string DescribeRecursive(DirectoryDTO dto, int level, string content)
+        public string DescribeRecursive(DirectoryDTO dto, string content)
         {
             var fullPath = Path.Combine(_basePath, dto.GetFullPath());
 
@@ -103,7 +103,7 @@ namespace DirBuilder
 
             foreach (var subDirectory in dto.Subdirectories.OrderBy(x => x.Name))
             {
-                content = DescribeRecursive(subDirectory, level + 1, content);
+                content = DescribeRecursive(subDirectory, content);
             }
 
             return content;
@@ -150,7 +150,7 @@ namespace DirBuilder
 
         public override string ToString() 
         {
-            return DescribeRecursive(_rootDirectory, 1, string.Empty);
+            return DescribeRecursive(_rootDirectory, string.Empty);
         }
     }
 }
